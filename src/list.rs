@@ -23,7 +23,7 @@ impl ListCommand {
 
     pub fn run(&self) {
         let index_path = self.base_opts.index_path();
-        let index = Index::from_file(&index_path).unwrap_or_default();
+        let index = Index::from_file(&index_path).expect("failed to open index");
         let notes = index.sorted_most_recent(self.opts.limit);
 
         let mut table = Table::new();

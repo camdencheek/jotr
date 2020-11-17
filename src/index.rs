@@ -22,7 +22,15 @@ impl Default for Index {
 
 impl Index {
     pub fn from_file<P: AsRef<Path>>(path: P) -> anyhow::Result<Self> {
-        let file = File::open(path)?;
+        let file = match File::open(path) {
+            Ok(f) => f,
+            Err(e)  => {
+                if e.kind() == io::ErrorKind::NotFound {
+                    return Ok(Index::default())
+                }
+                return Err(anyhow::Error::new(e))
+            },
+        };
         let i: Index = serde_json::from_reader(file)?;
         Ok(i)
     }

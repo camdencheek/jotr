@@ -23,6 +23,10 @@ impl NewCommand {
 
     pub fn run(&self) {
         let filepath = self.path();
+        if Path::exists(&filepath) {
+            println!("File {:?} already exists", &filepath)
+        }
+
         let mut handle = Command::new("nvim")
             .arg(&filepath)
             .spawn()

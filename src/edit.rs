@@ -21,7 +21,7 @@ impl EditCommand {
 
     pub fn run(&self) {
         let index_path = self.base_opts.index_path();
-        let mut index = Index::from_file(&index_path).unwrap_or_default();
+        let mut index = Index::from_file(&index_path).expect("failed to read from index");
 
         let entry = if let Ok(id) = usize::from_str_radix(&self.opts.name, 10) {
             index.get(id)
