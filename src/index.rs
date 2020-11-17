@@ -3,8 +3,8 @@
 use anyhow;
 use chrono::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::ffi::OsString;
 use std::fs::{File, OpenOptions};
+use std::io::{self, BufRead};
 use std::path::{Path, PathBuf};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -73,7 +73,13 @@ impl Index {
     pub fn get_by_name(&self, name: &str) -> Option<IndexEntry> {
         for entry in self.entries.iter().filter_map(|a| a.as_ref()) {
             if let Some(file_name) = entry.path.file_name() {
-                if file_name == OsString::from(&name) {
+                if file_name == name {
+                    return Some(entry.clone());
+                }
+            }
+
+            if let Some(stem) = entry.path.file_stem() {
+                if stem == name {
                     return Some(entry.clone());
                 }
             }
@@ -95,4 +101,29 @@ pub struct IndexEntry {
     pub id: usize,
     pub last_opened: DateTime<Utc>,
     pub path: PathBuf,
+}
+
+impl IndexEntry {
+    pub fn summarize(&self) -> String {
+        let f = match File::open(&self.path) {
+            Ok(f) => f,
+            Err(_) => return self.stem().to_string(),
+        };
+
+        let mut first_line  = String::new();
+        if let Err(_) =  io::BufReader::new(f).read_line(&mut first_line) {
+            return self.stem().to_string()
+        }
+
+        first_line.trim_start_matches('#').trim().to_string()
+    }
+
+    fn stem(&self) -> &str {
+        return self
+            .path
+            .file_stem()
+            .map(|x| x.to_str())
+            .flatten()
+            .unwrap_or("invalid_stem");
+    }
 }

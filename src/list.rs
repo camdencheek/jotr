@@ -32,7 +32,7 @@ impl ListCommand {
         for entry in notes {
             table.add_row(row![
                 format!("[{}]", entry.id.to_string().blue()),
-                entry.path.into_os_string().into_string().unwrap()
+                entry.summarize(),
             ]);
         }
         table.printstd();
