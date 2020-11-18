@@ -1,5 +1,5 @@
 [package]
-name = "notebook"
+name = "jotr"
 version = "0.1.0"
 authors = ["Camden Cheek <camden@ccheek.com>"]
 edition = "2018"

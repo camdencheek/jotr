@@ -2,7 +2,6 @@ use crate::args::BaseOpts;
 use crate::index::Index;
 use clap::*;
 use std::process::Command;
-use std::usize;
 
 #[derive(Clap)]
 pub struct EditOpts {
@@ -23,13 +22,7 @@ impl EditCommand {
         let index_path = self.base_opts.index_path();
         let mut index = Index::from_file(&index_path).expect("failed to read from index");
 
-        let entry = if let Ok(id) = usize::from_str_radix(&self.opts.name, 10) {
-            index.get(id)
-        } else {
-            index.get_by_name(&self.opts.name)
-        };
-
-        let entry = match entry {
+        let entry = match index.get(&self.opts.name) {
             Some(e) => e,
             None => {
                 println!("Entry '{}' not found", &self.opts.name);

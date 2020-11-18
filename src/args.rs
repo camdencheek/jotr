@@ -1,6 +1,7 @@
 use crate::edit;
 use crate::list;
 use crate::new;
+use crate::delete;
 use std::path::PathBuf;
 
 use clap::*;
@@ -20,6 +21,7 @@ pub enum Subcommand {
     Edit(edit::EditOpts),
     New(new::NewOpts),
     List(list::ListOpts),
+    Delete(delete::DeleteOpts),
 }
 
 #[derive(Clap)]

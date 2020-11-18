@@ -36,7 +36,11 @@ impl Index {
     }
 
     pub fn save<P: AsRef<Path>>(&self, path: P) -> anyhow::Result<()> {
-        let file = OpenOptions::new().create(true).write(true).open(&path)?;
+        let file = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .truncate(true)
+            .open(&path)?;
         serde_json::to_writer_pretty(file, &self)?;
         Ok(())
     }
@@ -68,13 +72,21 @@ impl Index {
         filtered
     }
 
-    pub fn delete(&mut self, id: usize) {
-        if let Some(elem) = self.entries.get_mut(id) {
+    pub fn delete(&mut self, entry: &IndexEntry) {
+        if let Some(elem) = self.entries.get_mut(entry.id) {
             *elem = None
         }
     }
 
-    pub fn get(&self, id: usize) -> Option<IndexEntry> {
+
+    pub fn get(&self, query: &str) -> Option<IndexEntry> {
+        match usize::from_str_radix(&query, 10) {
+            Ok(id) => self.get_by_id(id),
+            Err(_) => self.get_by_name(&query)
+        }
+    }
+
+    pub fn get_by_id(&self, id: usize) -> Option<IndexEntry> {
         self.entries.get(id).cloned().flatten()
     }
 
