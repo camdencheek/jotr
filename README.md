@@ -5,3 +5,4 @@
 - Rename command
 - Support for different file types
 - Proper top-level error handling rather than panicking
+- Short names

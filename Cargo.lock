@@ -277,6 +277,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dc6f3ad7b9d11a0c00842ff8de1b60ee58661048eb8049ed33c73594f359d7e6"
 
 [[package]]
+name = "jotr"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "clap",
+ "colored",
+ "directories",
+ "prettytable-rs",
+ "regex",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -293,21 +308,6 @@ name = "memchr"
 version = "2.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0ee1c47aaa256ecabcaea351eae4a9b01ef39ed810004e298d2511ed284b1525"
-
-[[package]]
-name = "notebook"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "chrono",
- "clap",
- "colored",
- "directories",
- "prettytable-rs",
- "regex",
- "serde",
- "serde_json",
-]
 
 [[package]]
 name = "num-integer"

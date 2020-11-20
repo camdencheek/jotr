@@ -1,7 +1,7 @@
+use crate::delete;
 use crate::edit;
 use crate::list;
 use crate::new;
-use crate::delete;
 use std::path::PathBuf;
 
 use clap::*;
@@ -18,9 +18,16 @@ pub struct Args {
 
 #[derive(Clap)]
 pub enum Subcommand {
+    #[clap(alias = "e")]
     Edit(edit::EditOpts),
+
+    #[clap(alias = "n")]
     New(new::NewOpts),
+
+    #[clap(alias = "l")]
     List(list::ListOpts),
+
+    #[clap(alias = "d")]
     Delete(delete::DeleteOpts),
 }
 
