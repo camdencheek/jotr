@@ -65,7 +65,7 @@ impl Index {
 
     pub fn sorted_most_recent(&self, limit: Option<usize>) -> Vec<IndexEntry> {
         let mut filtered: Vec<IndexEntry> = self.entries.iter().filter_map(|i| i.clone()).collect();
-        filtered.sort_by(|a, b| a.last_opened.cmp(&b.last_opened));
+        filtered.sort_by(|a, b| b.last_opened.cmp(&a.last_opened));
         if let Some(count) = limit {
             filtered.truncate(count)
         }
